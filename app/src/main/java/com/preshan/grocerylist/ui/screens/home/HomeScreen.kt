@@ -21,7 +21,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Campaign
 import androidx.compose.material.icons.automirrored.rounded.FactCheck
 import androidx.compose.material.icons.rounded.FormatListNumbered
 import androidx.compose.material.icons.rounded.Settings
@@ -52,6 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
 import com.preshan.grocerylist.R
+import com.preshan.grocerylist.ui.components.AdMobBanner
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
@@ -176,7 +176,7 @@ fun HomeScreen(
                 }
             }
 
-            HomeAdBannerCard(darkTheme = dark)
+            HomeAdMobBannerSection()
         }
     }
 }
@@ -472,85 +472,21 @@ private fun HomeShortcutCard(
 }
 
 @Composable
-private fun HomeAdBannerCard(darkTheme: Boolean) {
-    val cardTint = if (darkTheme) {
-        MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.35f)
-    } else {
-        Color(0xFFE5F4EA)
+private fun HomeAdMobBannerSection() {
+    if (androidx.compose.ui.platform.LocalInspectionMode.current) {
+        return
     }
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(28.dp),
-        colors = CardDefaults.cardColors(containerColor = cardTint),
-        elevation = CardDefaults.cardElevation(defaultElevation = if (darkTheme) 2.dp else 4.dp)
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Row(
+        AdMobBanner(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = if (darkTheme) {
-                    MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
-                } else {
-                    Color(0xFFC8E6C9)
-                },
-                modifier = Modifier.size(52.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                    Icon(
-                        imageVector = Icons.Rounded.Campaign,
-                        contentDescription = null,
-                        tint = if (darkTheme) MaterialTheme.colorScheme.primary else HomeIconForestGreen,
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                Text(
-                    text = AppTextProvider.text(AppTextKey.HOME_AD_TITLE),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Text(
-                    text = AppTextProvider.text(AppTextKey.HOME_AD_PLACEHOLDER),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Surface(
-                    shape = RoundedCornerShape(999.dp),
-                    color = if (darkTheme) {
-                        MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
-                    } else {
-                        Color(0xFFD0ECD4)
-                    }
-                ) {
-                    Text(
-                        text = AppTextProvider.text(AppTextKey.HOME_AD_BADGE),
-                        style = MaterialTheme.typography.labelLarge,
-                        fontWeight = FontWeight.Medium,
-                        color = if (darkTheme) MaterialTheme.colorScheme.primary else HomeIconForestGreen,
-                        modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp)
-                    )
-                }
-            }
-            Image(
-                painter = painterResource(R.drawable.home_ad_basket),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(100.dp),
-                contentScale = ContentScale.Fit
-            )
-        }
+                .padding(vertical = 4.dp)
+        )
     }
 }
 

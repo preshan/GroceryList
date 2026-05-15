@@ -38,6 +38,7 @@ import com.preshan.grocerylist.ui.components.AppSectionCard
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
+import com.preshan.grocerylist.util.LegalUrls
 
 private const val DeveloperName = "Preshan Pradeepa Kariyawasam"
 private const val DeveloperEmail = "preshanpradeepa@gmail.com"
@@ -117,6 +118,23 @@ fun PrivacyPolicyScreen(
             }
 
             item {
+                AppSectionCard(title = AppTextProvider.getText(AppTextKey.PRIVACY_POLICY, lang)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                        AboutLinkRow(
+                            label = AppTextProvider.getText(AppTextKey.PRIVACY_VIEW_ONLINE, lang),
+                            value = LegalUrls.PRIVACY_POLICY,
+                            onClick = { openLegalUrl(context, LegalUrls.PRIVACY_POLICY, lang) }
+                        )
+                        AboutLinkRow(
+                            label = AppTextProvider.getText(AppTextKey.TERMS_VIEW_ONLINE, lang),
+                            value = LegalUrls.TERMS_OF_USE,
+                            onClick = { openLegalUrl(context, LegalUrls.TERMS_OF_USE, lang) }
+                        )
+                    }
+                }
+            }
+
+            item {
                 AppSectionCard(title = AppTextProvider.getText(AppTextKey.DEVELOPER_APP_TITLE, lang)) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                         Text(
@@ -176,6 +194,16 @@ fun PrivacyPolicyScreen(
             }
         }
     }
+}
+
+private fun openLegalUrl(
+    context: android.content.Context,
+    url: String,
+    lang: com.preshan.grocerylist.util.AppLanguage
+) {
+    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+    val chooserTitle = AppTextProvider.getText(AppTextKey.OPEN_IN_BROWSER, lang)
+    runCatching { context.startActivity(Intent.createChooser(intent, chooserTitle)) }
 }
 
 @Composable
