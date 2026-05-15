@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Google AdMob IDs — replace with your production IDs before Play Store release.
-  Test IDs (safe for development): https://developers.google.com/admob/android/test-ads
+  Production AdMob IDs (safe to commit — they are public in the APK).
+  Debug builds override these with Google test IDs in src/debug/res/values/admob.xml.
+  https://developers.google.com/admob/android/test-ads
 -->
 <resources>
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="admob_banner_home" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="admob_app_id" translatable="false">ca-app-pub-9800341818444573~7462199418</string>
+    <string name="admob_banner_home" translatable="false">ca-app-pub-9800341818444573/8246850780</string>
 </resources>

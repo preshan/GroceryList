@@ -54,8 +54,8 @@ docs/            SRS, UI notes, compliance notes
 
 ## Configuration
 
-- **AdMob:** Google Mobile Ads SDK is integrated. Default build uses [Google test ad unit IDs](https://developers.google.com/admob/android/test-ads) in `app/src/main/res/values/admob.xml` — replace with your production IDs before a monetized Play release.
-- **Do not commit** `local.properties`, keystores (`.jks`), or production AdMob secrets you prefer to keep out of git.
+- **AdMob:** Production App ID and home banner unit are in `app/src/main/res/values/admob.xml` (safe to commit). **Debug** builds override with [Google test IDs](https://developers.google.com/admob/android/test-ads) in `app/src/debug/res/values/admob.xml`.
+- **Do not commit** `local.properties`, `keystore.properties`, or `.jks` keystores.
 - Optional release signing: copy `keystore.properties.example` → `keystore.properties` (gitignored).
 
 ## Privacy & legal (hosted on GitHub)
