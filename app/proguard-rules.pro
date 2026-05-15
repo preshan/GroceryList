@@ -17,3 +17,7 @@
 
 # Kotlin coroutines (common R8 false positives).
 -dontwarn kotlinx.coroutines.**
+
+# Google Mobile Ads (when minify is enabled).
+-keep class com.google.android.gms.ads.** { *; }
+-dontwarn com.google.android.gms.ads.**

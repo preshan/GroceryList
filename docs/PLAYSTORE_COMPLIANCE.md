@@ -6,16 +6,19 @@ Ship the app to Google Play with policy-safe metadata, privacy disclosure, and s
 ## Compliance Checklist
 
 ### Privacy & Data Safety
-- Add public privacy policy URL
-- Add in-app privacy policy access
+- **Privacy policy URL (hosted on GitHub):** https://github.com/preshan/GroceryList/blob/main/docs/PRIVACY_POLICY.md
+- **Terms of use (optional, GitHub):** https://github.com/preshan/GroceryList/blob/main/docs/TERMS_OF_USE.md
+- In-app privacy policy access (Settings → Privacy policy; links open hosted docs)
 - Complete Data Safety form accurately
 - Reflect AdMob SDK behavior correctly
 - Do not claim "no data collected" if ad SDK collects ad-related data
 
 ### Ads Declaration
-- Declare "Contains ads" in Play Console
-- Keep ad behavior aligned with app implementation
-- Use non-intrusive banner ads only
+- Declare **"Contains ads" = Yes** in Play Console (AdMob banner on home screen)
+- Keep ad behavior aligned with app implementation (banner only; no ads in shopping mode)
+- Replace Google **test** AdMob IDs with production IDs before monetized production release
+- Complete AdMob / Data safety disclosures per [AdMob Play data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure)
+- Add **UMP / consent** before production ads in EEA/UK if required
 
 ### Permissions
 - Keep permissions minimal

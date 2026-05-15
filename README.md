@@ -54,13 +54,18 @@ docs/            SRS, UI notes, compliance notes
 
 ## Configuration
 
-- **No API keys** are required for the current app build.
-- **Do not commit** `local.properties`, keystores (`.jks`), or `google-services.json` with real keys.
-- AdMob is not integrated yet; banner placeholder on home is UI-only.
+- **AdMob:** Google Mobile Ads SDK is integrated. Default build uses [Google test ad unit IDs](https://developers.google.com/admob/android/test-ads) in `app/src/main/res/values/admob.xml` — replace with your production IDs before a monetized Play release.
+- **Do not commit** `local.properties`, keystores (`.jks`), or production AdMob secrets you prefer to keep out of git.
+- Optional release signing: copy `keystore.properties.example` → `keystore.properties` (gitignored).
 
-## Privacy
+## Privacy & legal (hosted on GitHub)
 
-Grocery list data is stored locally. The app does not upload your list to developer servers. See in-app **Settings → Privacy policy** and `docs/PLAYSTORE_COMPLIANCE.md` for Play Store notes.
+| Document | URL |
+|----------|-----|
+| Privacy policy | https://github.com/preshan/GroceryList/blob/main/docs/PRIVACY_POLICY.md |
+| Terms of use | https://github.com/preshan/GroceryList/blob/main/docs/TERMS_OF_USE.md |
+
+Grocery list data is stored locally. The app does not upload your list to developer servers. Banner ads may appear on the home screen via Google AdMob. See in-app **Settings → Privacy policy** and `docs/PLAYSTORE_COMPLIANCE.md` for Play Store notes.
 
 ## License
 
@@ -74,3 +79,7 @@ MIT — see [LICENSE](LICENSE).
 | `docs/DB_STRUCTURE.md` | Database overview |
 | `docs/UI_TEXT_KEYS.md` | UI string key catalogue |
 | `docs/PLAYSTORE_COMPLIANCE.md` | Play Console checklist |
+| `docs/PRIVACY_POLICY.md` | Hosted privacy policy (link in Play Console) |
+| `docs/TERMS_OF_USE.md` | Terms of use |
+| `docs/PLAY_DATA_SAFETY_DRAFT.md` | Data safety worksheet |
+| `docs/PLAY_STORE_RELEASE_CHECKLIST.md` | Pre-release QA checklist |
