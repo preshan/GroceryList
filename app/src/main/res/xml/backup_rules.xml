@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-   Sample backup rules file; uncomment and customize as necessary.
-   See https://developer.android.com/guide/topics/data/autobackup
-   for details.
-   Note: This file is ignored for devices older than API 31
-   See https://developer.android.com/about/versions/12/backup-restore
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Auto Backup (fullBackupContent) for API 30 and below, and as a companion to
+  data_extraction_rules on newer devices.
+
+  MVP privacy choice: do not back up the local Room database (grocery_list.db).
+  app_settings and all catalogue/shopping data live in that database.
+  See AppDatabase.DB_NAME in code.
 -->
 <full-backup-content>
-    <!--
-   <include domain="sharedpref" path="."/>
-   <exclude domain="sharedpref" path="device.xml"/>
--->
+    <exclude domain="database" path="grocery_list.db" />
+    <exclude domain="database" path="grocery_list.db-shm" />
+    <exclude domain="database" path="grocery_list.db-wal" />
 </full-backup-content>
