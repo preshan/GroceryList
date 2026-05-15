@@ -50,6 +50,8 @@ data class GroceryUiState(
     val shoppingFilter: ShoppingFilter = ShoppingFilter.ALL,
     /** Active Room shopping session while user is in shopping mode, null otherwise. */
     val activeShoppingSessionId: Long? = null,
+    /** Snapshot-based list for Shopping Mode (from [shopping_session_items], not live catalogue). */
+    val shoppingDisplayByCategory: Map<String, List<GroceryItem>> = emptyMap(),
     /** One-shot hint from quick actions (e.g. no frequent items). */
     val quickActionMessageKey: AppTextKey? = null
 )
@@ -296,7 +298,14 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 if (ids.isEmpty()) return@withLock
                 val sessionId = shoppingSessionRepository.createActiveSessionWithItems(ids)
                 if (sessionId <= 0) return@withLock
-                _uiState.update { it.copy(activeShoppingSessionId = sessionId, quickActionMessageKey = null) }
+                val display = shoppingSessionRepository.getSessionItemsGroupedForDisplay(sessionId)
+                _uiState.update {
+                    it.copy(
+                        activeShoppingSessionId = sessionId,
+                        shoppingDisplayByCategory = display,
+                        quickActionMessageKey = null
+                    )
+                }
                 createdSession = true
             }
             if (createdSession) {
@@ -325,6 +334,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 _uiState.update {
                     it.copy(
                         activeShoppingSessionId = null,
+                        shoppingDisplayByCategory = emptyMap(),
                         selectedItemIds = emptySet(),
                         purchasedItemIds = emptySet(),
                         shoppingFilter = ShoppingFilter.ALL
@@ -347,6 +357,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 _uiState.update {
                     it.copy(
                         activeShoppingSessionId = null,
+                        shoppingDisplayByCategory = emptyMap(),
                         purchasedItemIds = emptySet(),
                         shoppingFilter = ShoppingFilter.ALL
                     )
@@ -357,20 +368,30 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     /**
-     * Aligns in-memory purchased flags with [shopping_session_items] (e.g. after navigation).
+     * Reloads snapshot display and purchased flags from [shopping_session_items] (e.g. after navigation).
      */
     suspend fun hydratePurchasedFromDatabase() {
         sessionWriteMutex.withLock {
             val sid = _uiState.value.activeShoppingSessionId ?: return@withLock
             val rows = shoppingSessionRepository.getSessionItems(sid)
             val purchased = rows.filter { it.isPurchased }.map { it.itemId }.toSet()
-            _uiState.update { it.copy(purchasedItemIds = purchased) }
+            val display = shoppingSessionRepository.getSessionItemsGroupedForDisplay(sid)
+            _uiState.update {
+                it.copy(
+                    purchasedItemIds = purchased,
+                    shoppingDisplayByCategory = display
+                )
+            }
         }
     }
 
     fun selectedItemsGroupedByCategory(): Map<String, List<GroceryItem>> {
-        val selected = _uiState.value.itemsByCategory.values.flatten()
-            .filter { _uiState.value.selectedItemIds.contains(it.id) }
+        val state = _uiState.value
+        if (state.activeShoppingSessionId != null) {
+            return state.shoppingDisplayByCategory
+        }
+        val selected = state.itemsByCategory.values.flatten()
+            .filter { state.selectedItemIds.contains(it.id) }
         return selected.groupBy { it.category }
     }
 

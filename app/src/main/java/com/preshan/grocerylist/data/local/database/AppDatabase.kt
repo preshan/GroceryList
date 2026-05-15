@@ -25,7 +25,7 @@ import com.preshan.grocerylist.data.local.entity.StoreTypeEntity
         ShoppingSessionItemEntity::class,
         AppSettingEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -41,6 +41,6 @@ abstract class AppDatabase : RoomDatabase() {
         const val DB_NAME = "grocery_list.db"
 
         // Explicit migration structure for future versions.
-        val ALL_MIGRATIONS: Array<Migration> = arrayOf()
+        val ALL_MIGRATIONS: Array<Migration> = arrayOf(MIGRATION_1_2)
     }
 }
