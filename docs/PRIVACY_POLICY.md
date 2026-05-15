@@ -20,7 +20,7 @@ This privacy policy describes how **Shopping List - Simple Offline List** (“th
 - We do **not** operate developer-owned servers to store your list data, and we do **not** use developer-owned analytics to collect your shopping content.
 - You choose if and when to share a list (for example via WhatsApp) using Android’s share sheet.
 - Export and import of catalogue data (CSV) is **manual** and **user-initiated**.
-- The app may show **small banner ads** on the **home screen** through **Google AdMob**. Ads are **not** shown during active **shopping mode**.
+- The app shows **small banner ads** on the **home screen** through **Google AdMob**. Ads are **not** shown during active **shopping mode**.
 - **Google** (not us) may process advertising-related data when ads load, according to [Google’s Privacy Policy](https://policies.google.com/privacy).
 
 This summary is for convenience. Please read the full policy below.
@@ -101,16 +101,15 @@ The app uses **Google AdMob** (Google Mobile Ads SDK) to show **banner advertise
 - **Placement:** Banner ads on the home screen. **No ads** are shown in **shopping mode** (the in-store checklist flow).  
 - **Your list data:** We do **not** send your grocery list content to AdMob for targeting.  
 - **Google’s role:** When an ad loads, **Google** may collect and process advertising-related data (such as device identifiers, ad interaction, IP address, and technical data) according to [Google’s Privacy Policy](https://policies.google.com/privacy) and, where applicable, [Google’s EU User Consent Policy](https://www.google.com/about/company/user-consent-policy/).  
-- **Consent:** If you are in regions where consent is required (for example EEA/UK), Google’s consent tools (such as the User Messaging Platform) may be shown before personalized ads—**verify the app version** you use.  
+- **Consent:** In regions where consent is required (for example EEA/UK/Switzerland), the app uses Google’s **User Messaging Platform (UMP)** to collect choices before requesting ads. You can change choices anytime in **Settings → Ad Privacy Options** when available.  
 - **No internet:** Core list features work offline. Ads may not load without a network connection; the app should remain usable.  
-- **Ad choices:** You can use device and Google ad settings to limit ad personalization. In-app **Ad Privacy Options** may link to Google’s tools when configured.
+- **Ad choices:** You can use device and Google ad settings to limit ad personalization. In-app **Settings → Ad Privacy Options** opens Google’s consent tools when available for your region.
 
 Learn more about how Google uses data in advertising:  
 https://policies.google.com/technologies/partner-sites
 
-**Release note for developers:** Replace Google **test** AdMob IDs with your **production** IDs before publishing a monetized production build. See `app/src/main/res/values/admob.xml`.
-
 ---
+
 
 ## 8. Permissions and network
 
@@ -179,9 +178,11 @@ When publishing on Google Play, our **Data safety** form is completed to match t
 | Developer analytics | Not used for shopping content |
 | Sharing | User-initiated via Android share sheet |
 | CSV import/export | User-initiated, manual |
-| Ads | **Yes** — Google AdMob banner on home screen; see section 7 |
+| Ads | **Yes** — Google Mobile Ads SDK (AdMob) banner on home screen; see section 7 |
+| Play listing **Contains ads** | **Yes** |
+| Third-party ad data | **Google** may process advertising-related data (not grocery list content on developer servers) |
 
-Play Console answers must always match this policy and the actual app behaviour at the time of release.
+Play Console **Data safety** and **Contains ads** must match this policy. Do **not** answer “no data collected” for the app overall while AdMob is active.
 
 ---
 

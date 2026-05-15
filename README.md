@@ -54,7 +54,7 @@ docs/            SRS, UI notes, compliance notes
 
 ## Configuration
 
-- **AdMob:** Production App ID and home banner unit are in `app/src/main/res/values/admob.xml` (safe to commit). **Debug** builds override with [Google test IDs](https://developers.google.com/admob/android/test-ads) in `app/src/debug/res/values/admob.xml`.
+- **AdMob:** Production App ID and home banner unit are in `app/src/main/res/values/admob.xml` (safe to commit). **Debug** builds override with [Google test IDs](https://developers.google.com/admob/android/test-ads) in `app/src/debug/res/values/admob.xml`. **UMP consent** runs at launch; banner loads only after consent allows ads.
 - **Do not commit** `local.properties`, `keystore.properties`, or `.jks` keystores.
 - Optional release signing: copy `keystore.properties.example` → `keystore.properties` (gitignored).
 

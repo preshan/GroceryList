@@ -43,7 +43,7 @@ Central registry of **stable logical keys** (`AppTextKeys` in `app/src/main/java
 | `favorites` | Favorites | Home shortcut | `shortcut_favorites_title` |
 | `frequent_items` | Frequent | Home shortcut title | `shortcut_frequent_title` (UI says “Frequent”, not “Frequent Items”) |
 | `manage_items` | Manage | Home shortcut title | `shortcut_manage_title` |
-| `home_ad_placeholder` | Banner ad will appear here | Home ad card | `home_ad_placeholder` |
+| `home_ad_placeholder` | Banner advertisement (legacy placeholder card) | Unused if live AdMob banner | `home_ad_placeholder` |
 | `continue_shopping` | Continue Shopping | Home | Planned (see UI/UX plan); not shown in UI yet |
 | `quick_select` | Quick Select | — | No screen title; uses search + sections |
 | `search_items` | Search items | Quick Select | Hardcoded |
@@ -94,7 +94,8 @@ Central registry of **stable logical keys** (`AppTextKeys` in `app/src/main/java
 | `reset_frequent_item_data` | Reset frequent item data | Settings | Hardcoded |
 | `clear_current_shopping_list` | Clear current shopping list | Settings | Hardcoded |
 | `clear_all_local_data` | Clear all local data | Settings | Hardcoded |
-| `ad_privacy_options` | Ad Privacy Options | Settings | Hardcoded |
+| `ad_privacy_options` | Ad Privacy Options | Settings | `AppTextProvider` |
+| `ad_privacy_options_subtitle` | Manage ad consent and personalization | Settings | `AppTextProvider` |
 | `default_grouping` | Default grouping | — | Not in UI |
 | `restore_default_items_confirm_title` | Restore default items? | Settings dialog | Hardcoded |
 | `restore_default_items_confirm_message` | This restores missing default… | Settings dialog | Hardcoded (differs from SRS template) |
@@ -109,8 +110,9 @@ Central registry of **stable logical keys** (`AppTextKeys` in `app/src/main/java
 | `privacy_no_login` | The app does not require login. | Privacy bullets | |
 | `privacy_no_upload` | The app does not upload grocery list… | Privacy bullets | |
 | `privacy_no_analytics` | The app does not use developer-owned analytics. | Privacy bullets | |
-| `privacy_ads_future` | The app may show ads through Google AdMob in the future. | Privacy bullets | |
-| `privacy_ads_data` | AdMob may process advertising-related data… | Privacy bullets | |
+| `privacy_ads_future` | The app shows banner ads through Google AdMob on the home screen (not in shopping mode). | Privacy bullets | Present-tense; key id kept for compatibility |
+| `privacy_ads_data` | AdMob may process advertising-related data according to Google policies. | Privacy bullets | |
+| `privacy_ads_consent` | Change ad consent in Settings → Ad Privacy Options (where available). | Privacy bullets | |
 | `privacy_manual_share` | You may manually share lists… | Privacy bullets | |
 | `privacy_no_auto_share` | The app does not automatically share shopping data. | Privacy bullets | |
 | `food_grocery` | Food & Grocery | Default categories / seed | DB seed English |
@@ -128,7 +130,8 @@ Central registry of **stable logical keys** (`AppTextKeys` in `app/src/main/java
 | `toast_frequent_reset` | Frequent item data reset. | `GroceryListNavHost` |
 | `toast_list_cleared` | Current shopping list cleared. | `GroceryListNavHost` |
 | `toast_clear_all_placeholder` | Clear all local data is not implemented yet. | `GroceryListNavHost` |
-| `toast_ad_privacy_placeholder` | Ad Privacy Options coming soon. | `GroceryListNavHost` |
+| `toast_ad_privacy_not_available` | Ad privacy options are not available right now… | `GroceryListNavHost` |
+| `toast_ad_privacy_error` | Could not open ad privacy options… | `GroceryListNavHost` |
 | `toast_still_loading` | Still loading… | `ManageItemsScreen` |
 | `toast_item_not_found` | Item not found. | `ManageItemsScreen` |
 | `export_data` | Export Data | Settings → Data |

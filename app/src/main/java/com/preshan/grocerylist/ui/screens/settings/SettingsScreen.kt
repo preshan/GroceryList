@@ -50,7 +50,7 @@ fun SettingsScreen(
     onClearCurrentShoppingListClick: () -> Unit = {},
     onConfirmClearAllLocalData: () -> Unit = {},
     onPrivacyPolicyClick: () -> Unit = {},
-    onAdPrivacyOptionsPlaceholderClick: () -> Unit = {},
+    onAdPrivacyOptionsClick: () -> Unit = {},
     onCountryRegionLanguageClick: () -> Unit = {},
     onExportConfirmed: () -> Unit = {},
     onImportChooseFile: (CsvImportOptions) -> Unit = {},
@@ -315,8 +315,8 @@ fun SettingsScreen(
                         ),
                         SettingsRowAction(
                             AppTextProvider.getText(AppTextKey.AD_PRIVACY_OPTIONS, lang),
-                            null,
-                            onAdPrivacyOptionsPlaceholderClick
+                            AppTextProvider.getText(AppTextKey.AD_PRIVACY_OPTIONS_SUBTITLE, lang),
+                            onAdPrivacyOptionsClick
                         )
                     )
                 )

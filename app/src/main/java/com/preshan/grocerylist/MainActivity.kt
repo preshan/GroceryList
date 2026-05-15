@@ -6,20 +6,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.google.android.gms.ads.MobileAds
+import com.preshan.grocerylist.ads.AdConsentManager
 import com.preshan.grocerylist.ui.navigation.GroceryListNavHost
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MobileAds.initialize(this) {}
         enableEdgeToEdge()
         setContent {
             GroceryListTheme {
                 GroceryListNavHost()
             }
         }
+        // Non-blocking: UI is shown first; ads load only after UMP allows requests.
+        AdConsentManager.start(this)
     }
 }
 

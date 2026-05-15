@@ -110,6 +110,7 @@ fun PrivacyPolicyScreen(
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_NO_ANALYTICS, lang))
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_ADS_FUTURE, lang))
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_ADS_DATA, lang))
+                        PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_ADS_CONSENT, lang))
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_MANUAL_SHARE, lang))
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_NO_AUTO_SHARE, lang))
                         PolicyBullet(AppTextProvider.getText(AppTextKey.PRIVACY_MANUAL_IMPORT_EXPORT, lang))

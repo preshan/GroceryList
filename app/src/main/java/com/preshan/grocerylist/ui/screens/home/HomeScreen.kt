@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.safeDrawing
 import com.preshan.grocerylist.R
-import com.preshan.grocerylist.ui.components.AdMobBanner
+import com.preshan.grocerylist.ui.components.HomeAdMobBanner
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
@@ -473,21 +473,7 @@ private fun HomeShortcutCard(
 
 @Composable
 private fun HomeAdMobBannerSection() {
-    if (androidx.compose.ui.platform.LocalInspectionMode.current) {
-        return
-    }
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
-        AdMobBanner(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 4.dp)
-        )
-    }
+    HomeAdMobBanner()
 }
 
 @Composable

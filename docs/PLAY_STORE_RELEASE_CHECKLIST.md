@@ -53,16 +53,16 @@ Related docs: [PRIVACY_POLICY.md](PRIVACY_POLICY.md) · [PLAY_DATA_SAFETY_DRAFT.
 
 ## 4. Ads (Google AdMob)
 
-| Item | Before first upload with ads | Done |
-|------|------------------------------|------|
-| **AdMob App ID** | Replace test ID in `res/values/admob.xml` with your AdMob **app** ID | ☐ |
-| **Banner ad unit ID** | Replace test banner unit for home screen | ☐ |
-| **SDK integrated** | `play-services-ads`; banner on **Home only** (not Shopping Mode) | ☐ |
-| **Contains ads** (Play listing) | Set **Yes** when live ads enabled | ☐ |
-| **Data Safety** | Update per AdMob disclosure + `PLAY_DATA_SAFETY_DRAFT.md` §8 | ☐ |
-| **Privacy policy** | Hosted URL live; ads section describes active AdMob | ☐ |
-| **UMP / consent** | If serving ads in EEA/UK/CH, integrate User Messaging Platform — **verify** [AdMob consent](https://developers.google.com/admob/android/privacy) | ☐ |
-| **Test ads** | Use Google test IDs until store listing ready | ☐ |
+| Item | Current app state | Done |
+|------|-------------------|------|
+| **Production AdMob IDs** | `app/src/main/res/values/admob.xml` (release builds) | ☐ |
+| **Debug test ads** | `app/src/debug/res/values/admob.xml` overrides with Google sample IDs | ☐ |
+| **SDK** | `play-services-ads` + UMP (`user-messaging-platform`); banner on **Home only** | ☐ |
+| **Contains ads** (Play listing) | Set **Yes** — app contains ads | ☐ |
+| **Data Safety** | Declare **Google Mobile Ads SDK** / AdMob per `PLAY_DATA_SAFETY_DRAFT.md` §8 | ☐ |
+| **Privacy policy** | Hosted URL; states active banner ads + UMP | ☐ |
+| **UMP / consent** | `AdConsentManager` in app; publish message in AdMob → Privacy & messaging | ☐ |
+| **Release AAB check** | Install **release** build once; confirm real ads (not “Test Ad” label) | ☐ |
 | **Permissions** | `INTERNET`, `ACCESS_NETWORK_STATE` in release manifest | ☐ |
 
 ---
@@ -135,9 +135,9 @@ All must be true:
 
 - [ ] Release AAB builds and installs
 - [ ] Privacy policy URL live and linked in Play Console
-- [ ] Data Safety matches behavior (including ads if enabled)
-- [ ] **Contains ads** matches build
-- [ ] Production AdMob IDs (not Google test IDs) if shipping ads
+- [ ] Data Safety matches behavior (developer list data local; **Google AdMob** declared for ads)
+- [ ] **Contains ads** = **Yes** in Play Console
+- [ ] Release AAB uses production IDs in `main/admob.xml` (debug builds may show test ads)
 - [ ] No PII in logs; no secrets in git
 - [ ] `versionCode` bumped if re-uploading
 
