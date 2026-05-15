@@ -4,7 +4,8 @@
 **Package:** `com.preshan.grocerylist`  
 **Based on codebase review:** [date of review: verify before submit]  
 **Privacy policy URL:** https://github.com/preshan/GroceryList/blob/main/docs/PRIVACY_POLICY.md  
-**Terms of use URL:** https://github.com/preshan/GroceryList/blob/main/docs/TERMS_OF_USE.md
+**Terms of use URL:** https://github.com/preshan/GroceryList/blob/main/docs/TERMS_OF_USE.md  
+**Delete data URL:** https://github.com/preshan/GroceryList/blob/main/docs/DATA_DELETION.md
 
 Use this document as a **worksheet** when completing [Play Console → App content → Data safety](https://support.google.com/googleplay/android-developer/answer/10787469). Wording in the console may differ slightly by year—**verify each answer in Play Console** before publishing.
 

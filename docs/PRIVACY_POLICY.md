@@ -128,6 +128,9 @@ We do **not** use location, contacts, SMS, or camera access for core grocery lis
 
 ## 9. Data retention and deletion
 
+**Delete data instructions (for Google Play):**  
+https://github.com/preshan/GroceryList/blob/main/docs/DATA_DELETION.md
+
 ### In the app
 
 **Settings → Clear All Local Data** permanently deletes local app data on your device, including items, categories, shopping history, favorites, and app settings stored by the app. This action is intended to be **irreversible** from within the app.
