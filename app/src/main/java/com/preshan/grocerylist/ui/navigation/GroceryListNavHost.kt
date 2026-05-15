@@ -376,14 +376,22 @@ fun GroceryListNavHost(
                     ).show()
                 },
                 onConfirmClearAllLocalData = {
-                    Toast.makeText(
-                        context,
-                        AppTextProvider.getText(
-                            AppTextKey.TOAST_CLEAR_ALL_PLACEHOLDER,
-                            appLanguage
-                        ),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    viewModel.clearAllLocalData {
+                        appLanguage = AppLanguage.ENGLISH
+                        Toast.makeText(
+                            context,
+                            AppTextProvider.getText(
+                                AppTextKey.TOAST_CLEAR_ALL_SUCCESS,
+                                AppLanguage.ENGLISH
+                            ),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        navController.navigate(AppRoutes.LOCALE_SETUP_FIRST) {
+                            popUpTo(navController.graph.id) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 },
                 onPrivacyPolicyClick = { navController.navigate(AppRoutes.PRIVACY_POLICY) },
                 onAdPrivacyOptionsPlaceholderClick = {
