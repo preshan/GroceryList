@@ -10,4 +10,5 @@ object LegalUrls {
 
     const val PRIVACY_POLICY = "$REPO_DOCS_BASE/PRIVACY_POLICY.md"
     const val TERMS_OF_USE = "$REPO_DOCS_BASE/TERMS_OF_USE.md"
+    const val DATA_DELETION = "$REPO_DOCS_BASE/DATA_DELETION.md"
 }
