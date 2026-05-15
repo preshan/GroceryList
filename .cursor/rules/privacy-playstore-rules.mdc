@@ -1,0 +1,35 @@
+---
+description: Privacy, ads, and Play Store compliance requirements.
+globs:
+alwaysApply: true
+---
+
+# Privacy and Play Store Rules
+
+The app privacy position:
+- Grocery list data is stored locally on the user's device.
+- The developer does not collect grocery items, categories, favorites, shopping history, or templates.
+- No login is required.
+- No backend is used.
+- No developer-owned analytics are used.
+- The app may show ads using Google AdMob.
+- AdMob may collect advertising-related data according to Google policies.
+- Users can manually share lists using Android share sheet.
+- The app does not automatically share shopping data.
+
+Do not claim:
+"This app collects no data"
+
+Better wording:
+"This app does not collect or upload your grocery list data. Shopping data is stored locally on your device. The app may show ads through Google AdMob, which may process advertising-related data."
+
+Play Store:
+- Declare app contains ads.
+- Complete Data Safety accurately.
+- Add privacy policy link in app and Play Console.
+- Avoid unnecessary permissions.
+- Use only INTERNET and ACCESS_NETWORK_STATE unless a feature truly requires more.
+
+Release safety reminders:
+- Keep in-app behavior, privacy policy text, and Data Safety answers aligned.
+- Re-check current Play policy and target SDK requirements before submission.

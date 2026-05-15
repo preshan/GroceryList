@@ -1,0 +1,41 @@
+---
+description: High-level product rules and scope guardrails.
+alwaysApply: true
+---
+
+# Grocery List App - Project Overview
+
+This project is an offline-first Android grocery/shopping list app focused on Sri Lankan users.
+
+## Non-negotiable product goals
+- All core list and shopping features must work without internet.
+- No login, no backend, and no developer-owned analytics in MVP.
+- Grocery data is stored locally using Room/SQLite.
+- Provide useful default Sri Lankan grocery items on first launch.
+- Support fast pre-shopping selection, then focused shopping checklist flow.
+- Support category and store-type grouping for clarity in-store.
+- Support favorites and frequently purchased items for faster repeat use.
+- Support sharing via Android share sheet, including WhatsApp.
+- Monetize only with small non-intrusive AdMob banner ads.
+- Keep UI simple, fast, readable, and usable on older Android phones.
+
+## Explicitly out of scope
+- Cloud sync
+- User accounts
+- Firebase Analytics
+- Location tracking
+- Contacts access
+- SMS reading
+- Camera/barcode scanning
+- Full-screen ads
+- Interstitial ads
+- Complex budgeting features
+
+## Decision guardrails
+- Choose the simplest implementation that preserves offline reliability.
+- If a feature increases complexity but not everyday shopper speed, defer it.
+- Prefer predictable local behavior over clever but fragile UX patterns.
+- Avoid dependencies that require network for core usage.
+
+## Source of truth
+- Always follow `docs/SRS.md`.

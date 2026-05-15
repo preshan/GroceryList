@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Shopping List - Simple Offline List</string>
+    <string name="home_title">Shopping List</string>
+    <string name="home_subtitle">Simple Offline List</string>
+    <string name="home_welcome_illustration_cd">Grocery bag and shopping checklist</string>
+    <string name="home_welcome_heading">Welcome!</string>
+    <string name="home_welcome_body">Plan faster with a clean list flow for daily groceries.</string>
+    <string name="home_prepare_list">Prepare Shopping List</string>
+    <string name="home_shortcuts">Shortcuts</string>
+    <string name="shortcut_favorites_title">Favorites</string>
+    <string name="shortcut_favorites_sub">Make items favourite</string>
+    <string name="shortcut_frequent_title">Frequent</string>
+    <string name="shortcut_frequent_sub">Manage Frequent Items</string>
+    <string name="shortcut_manage_title">Manage</string>
+    <string name="shortcut_manage_sub">Add, edit or remove</string>
+    <string name="shortcut_settings_title">Settings</string>
+    <string name="shortcut_settings_sub">Customize Experience</string>
+    <string name="home_ad_title">Ad space</string>
+    <string name="home_ad_placeholder">Banner ad will appear here</string>
+    <string name="home_ad_badge">Coming later</string>
+
+    <string name="locale_setup_title">Set up your list</string>
+    <string name="locale_setup_subtitle">Choose your country or region and preferred language.</string>
+    <string name="locale_setup_helper">You can change this later in Settings.</string>
+    <string name="locale_illustration_line1">Shopping list</string>
+    <string name="locale_illustration_line2">Ready to go</string>
+    <string name="locale_label_country_region">Country / Region</string>
+    <string name="locale_label_language">Language</string>
+    <string name="locale_continue">Continue</string>
+    <string name="locale_save">Save</string>
+    <string name="locale_back">Back</string>
+    <string name="locale_settings_title">Country / Region &amp; Language</string>
+    <string name="settings_section_locale">Country / Region &amp; Language</string>
+</resources>

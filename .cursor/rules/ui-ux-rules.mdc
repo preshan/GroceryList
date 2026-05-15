@@ -1,0 +1,34 @@
+---
+description: UI/UX interaction and accessibility rules for grocery flows.
+globs:
+  - app/**/*.kt
+alwaysApply: true
+---
+
+# UI UX Rules
+
+The app must be faster and easier than using Samsung Notes checkboxes.
+
+Core flow:
+Home Screen
+-> Quick Item Selection
+-> Confirm List
+-> Shopping Mode
+
+UX priorities:
+- One-tap start from home.
+- Swipe or tap between categories.
+- Whole item row should be tappable.
+- Selected count should always be visible.
+- Quick buttons: Select All, Deselect All, Favorites, Frequent Items, Clear.
+- Final shopping list should be grouped by category or store type.
+- Shopping mode should be distraction-free.
+- Avoid showing banner ads in active shopping mode for MVP.
+- Use large tap targets.
+- Use readable text.
+- Support older users and small phones.
+
+Implementation reminders:
+- Keep search visible in Quick Item Selection.
+- Keep confirm action obvious and always reachable.
+- Use empty states with a clear next action.

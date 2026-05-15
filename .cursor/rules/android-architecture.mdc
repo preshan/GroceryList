@@ -1,0 +1,51 @@
+---
+description: Kotlin/Compose architecture and code organization standards.
+globs:
+  - app/**/*.kt
+alwaysApply: true
+---
+
+# Android Architecture Rules
+
+Use:
+- Kotlin
+- Jetpack Compose
+- Room SQLite
+- Navigation Compose
+- ViewModel
+- Coroutines / Flow where useful
+
+Preferred package structure:
+
+`app/src/main/java/com/preshan/grocerylist/`
+- `data/local/entity`
+- `data/local/dao`
+- `data/local/database`
+- `data/repository`
+- `domain/model`
+- `domain/usecase`
+- `ui/navigation`
+- `ui/screens/home`
+- `ui/screens/quickselect`
+- `ui/screens/shopping`
+- `ui/screens/manageitems`
+- `ui/screens/settings`
+- `ui/components`
+- `ui/theme`
+- `util`
+
+Rules:
+- Keep business logic out of Composables.
+- Use ViewModels for screen state.
+- Use repositories for data access.
+- Do not create backend/API code.
+- Do not add unnecessary dependencies.
+- Keep code simple and readable.
+- Use Room migrations carefully.
+- Do not add AdMob until core offline flow is working.
+
+Additional implementation guardrails:
+- Keep composables stateless where possible; hoist mutable UI state to ViewModel.
+- Expose immutable `StateFlow`/UI state models from ViewModel.
+- Keep DAO interfaces focused and transaction logic inside repository/database layer.
+- Add migrations explicitly for schema changes; do not rely on destructive migration in release builds.

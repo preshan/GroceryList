@@ -1,0 +1,37 @@
+---
+description: Room schema, migration, and data integrity rules.
+globs:
+  - app/**/*.kt
+alwaysApply: true
+---
+
+# Database Rules
+
+Use Room/SQLite as the main local database.
+
+Core tables:
+- `categories`
+- `store_types`
+- `items`
+- `shopping_sessions`
+- `shopping_session_items`
+- `app_settings`
+
+Optional later:
+- `list_templates`
+- `list_template_items`
+- `import_logs`
+- `privacy_consents`
+
+Data rules:
+- Grocery list data must remain local.
+- Do not upload grocery data anywhere.
+- Use soft delete with `is_active=false` for items, categories, and store types.
+- Keep shopping session item snapshots so old sessions are not broken if item names change.
+- CSV/text is only for export/import/share, not main storage.
+- Use indexes for search and filtering.
+
+Additional safety rules:
+- Add explicit Room migrations for schema changes in release builds.
+- Do not use destructive migration in production.
+- Keep foreign keys for category/store/session integrity.

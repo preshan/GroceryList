@@ -1,0 +1,37 @@
+---
+description: Project workflow rules for planning, coding, and quality checks.
+globs:
+alwaysApply: true
+---
+
+# Cursor Workflow Rules
+
+## Work sequence
+1. Understand requirement and identify impacted files.
+2. Implement smallest correct change first.
+3. Verify with build/tests/lint for touched scope.
+4. Summarize what changed and what remains.
+
+## Editing guidelines
+- Keep changes scoped to the requested task.
+- Do not rewrite unrelated code.
+- Preserve user-authored changes when present.
+- Add brief comments only where logic is non-obvious.
+
+## Quality checks
+- Run lint/checks after substantive edits.
+- Prefer fixing root causes over suppressing warnings.
+- Verify offline-critical flows when touching data or session logic.
+
+## Documentation discipline
+- Update relevant docs in `docs/` when scope/architecture/flow changes.
+- Keep implementation aligned with SRS and compliance documents.
+
+## Git hygiene
+- Make atomic commits when asked to commit.
+- Use clear commit messages focused on why.
+- Avoid destructive git operations unless explicitly requested.
+
+## Product guardrail reminder
+- Do not introduce cloud-only dependencies for core functionality.
+- Maintain fast, accessible, and low-friction shopping flows.
