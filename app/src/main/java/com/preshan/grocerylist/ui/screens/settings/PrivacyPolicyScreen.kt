@@ -78,7 +78,7 @@ fun PrivacyPolicyScreen(
                         Text(AppTextProvider.getText(AppTextKey.BACK, lang))
                     }
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
                 )
             )
