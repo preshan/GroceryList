@@ -226,6 +226,7 @@ enum class AppTextKey(val id: String) {
     TOAST_FREQUENT_RESET("toast_frequent_reset"),
     TOAST_LIST_CLEARED("toast_list_cleared"),
     TOAST_CLEAR_ALL_PLACEHOLDER("toast_clear_all_placeholder"),
+    TOAST_CLEAR_ALL_SUCCESS("toast_clear_all_success"),
     TOAST_AD_PRIVACY_PLACEHOLDER("toast_ad_privacy_placeholder"),
     TOAST_STILL_LOADING("toast_still_loading"),
     TOAST_ITEM_NOT_FOUND("toast_item_not_found"),

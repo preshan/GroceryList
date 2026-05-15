@@ -79,7 +79,7 @@ fun SettingsScreen(
                         onConfirmClearAllLocalData()
                     }
                 ) {
-                    Text(AppTextProvider.getText(AppTextKey.CONTINUE, lang))
+                    Text(AppTextProvider.getText(AppTextKey.DELETE, lang))
                 }
             },
             dismissButton = {

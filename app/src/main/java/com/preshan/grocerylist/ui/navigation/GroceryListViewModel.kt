@@ -7,6 +7,7 @@ import com.preshan.grocerylist.data.local.database.DatabaseProvider
 import com.preshan.grocerylist.data.repository.AppSettingsRepository
 import com.preshan.grocerylist.data.repository.CatalogRepository
 import com.preshan.grocerylist.data.repository.CatalogRepositoryImpl
+import com.preshan.grocerylist.data.repository.LocalDataRepository
 import com.preshan.grocerylist.data.repository.ShoppingSessionRepository
 import com.preshan.grocerylist.data.seed.DatabaseSeeder
 import kotlinx.coroutines.CoroutineScope
@@ -61,6 +62,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
 
     private val catalogRepository: CatalogRepository
     private val shoppingSessionRepository: ShoppingSessionRepository
+    private val localDataRepository: LocalDataRepository
     private val itemDao: ItemDao
     private val databaseSeeder: DatabaseSeeder
 
@@ -71,6 +73,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
         val database = DatabaseProvider.getDatabase(application)
         itemDao = database.itemDao()
         shoppingSessionRepository = ShoppingSessionRepository(database)
+        localDataRepository = LocalDataRepository(database)
         databaseSeeder = DatabaseSeeder(
             categoryDao = database.categoryDao(),
             storeTypeDao = database.storeTypeDao(),
@@ -368,6 +371,25 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
         val selected = _uiState.value.itemsByCategory.values.flatten()
             .filter { _uiState.value.selectedItemIds.contains(it.id) }
         return selected.groupBy { it.category }
+    }
+
+    /**
+     * Deletes all Room data and resets in-memory UI state. Safe if a shopping session is active.
+     */
+    fun clearAllLocalData(onComplete: () -> Unit = {}) {
+        scope.launch(Dispatchers.IO) {
+            sessionWriteMutex.withLock {
+                val sid = _uiState.value.activeShoppingSessionId
+                if (sid != null) {
+                    runCatching {
+                        shoppingSessionRepository.cancelActiveSessionIfNeeded(sid)
+                    }
+                }
+                localDataRepository.clearAllLocalData()
+                _uiState.value = GroceryUiState()
+            }
+            withContext(Dispatchers.Main) { onComplete() }
+        }
     }
 
     override fun onCleared() {
