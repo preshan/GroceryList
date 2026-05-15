@@ -33,7 +33,7 @@ fun buildShoppingListShareText(
         }
         if (filtered.isEmpty()) continue
         wroteAny = true
-        body.appendLine(category)
+        body.appendLine(CategoryDisplayNames.localizedName(category, language))
         for (item in filtered.sortedBy { it.name.lowercase() }) {
             val prefix = when (format) {
                 ShoppingShareFormat.PENDING_ONLY -> "☐ "

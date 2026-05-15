@@ -44,6 +44,7 @@ import com.preshan.grocerylist.ui.navigation.ShoppingFilter
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
+import com.preshan.grocerylist.util.CategoryDisplayNames
 import com.preshan.grocerylist.util.ShoppingShareFormat
 import com.preshan.grocerylist.util.buildShoppingListShareText
 import java.util.Locale
@@ -235,18 +236,7 @@ fun ShoppingModeScreen(
                     if (filteredItems.isNotEmpty()) {
                         item(key = "header_$category") {
                             Text(
-                                text = when (category) {
-                                    "Food & Grocery" -> AppTextProvider.getText(AppTextKey.FOOD_GROCERY, lang)
-                                    "Vegetables" -> AppTextProvider.getText(AppTextKey.VEGETABLES, lang)
-                                    "Fruits" -> AppTextProvider.getText(AppTextKey.FRUITS, lang)
-                                    "Meat Shop" -> AppTextProvider.getText(AppTextKey.MEAT_SHOP, lang)
-                                    "Health & Pharmacy" -> AppTextProvider.getText(AppTextKey.HEALTH_PHARMACY, lang)
-                                    "Household & Personal Care" -> AppTextProvider.getText(
-                                        AppTextKey.HOUSEHOLD_PERSONAL_CARE,
-                                        lang
-                                    )
-                                    else -> category
-                                },
+                                text = CategoryDisplayNames.localizedName(category, lang),
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.padding(top = 8.dp, bottom = 2.dp)

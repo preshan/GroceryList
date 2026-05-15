@@ -37,6 +37,7 @@ import com.preshan.grocerylist.data.local.entity.CategoryEntity
 import com.preshan.grocerylist.ui.components.AppPrimaryButton
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
+import com.preshan.grocerylist.util.CategoryDisplayNames
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -85,7 +86,11 @@ fun ManageCategoriesScreen(
                         scope.launch {
                             val err = viewModel.confirmRemovePending()
                             if (err != null) {
-                                Toast.makeText(context, err, Toast.LENGTH_LONG).show()
+                                Toast.makeText(
+                                    context,
+                                    AppTextProvider.getText(err, lang),
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
                         }
                     }
@@ -125,7 +130,11 @@ fun ManageCategoriesScreen(
                                 viewModel.updateCategory(editingCategoryId!!, editorName)
                             }
                             if (err != null) {
-                                Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    AppTextProvider.getText(err, lang),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 editorOpen = false
                             }
@@ -208,7 +217,7 @@ private fun CategoryRowCard(
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = category.name,
+                    text = CategoryDisplayNames.localizedName(category.name, lang),
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.SemiBold
                 )

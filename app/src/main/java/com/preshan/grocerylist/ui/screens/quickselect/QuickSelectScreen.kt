@@ -60,6 +60,7 @@ import com.preshan.grocerylist.ui.navigation.GroceryItem
 import com.preshan.grocerylist.ui.navigation.GroceryUiState
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
+import com.preshan.grocerylist.util.CategoryDisplayNames
 import com.preshan.grocerylist.ui.theme.GroceryListTheme
 import kotlinx.coroutines.launch
 
@@ -86,7 +87,7 @@ fun QuickSelectScreen(
     onClear: () -> Unit,
     onConfirmList: () -> Unit,
     onDismissQuickMessage: () -> Unit = {},
-    renameCatalogItem: suspend (Long, String) -> String?,
+    renameCatalogItem: suspend (Long, String) -> AppTextKey?,
     setItemFavorite: (Long, Boolean) -> Unit,
     deleteCatalogItem: (Long) -> Unit,
     modifier: Modifier = Modifier
@@ -95,20 +96,6 @@ fun QuickSelectScreen(
     val scope = rememberCoroutineScope()
     val selectedCount = uiState.selectedItemIds.size
     val lang = AppTextProvider.LocalAppLanguage.current
-    fun localizedCategoryName(name: String): String {
-        return when (name) {
-            "Food & Grocery" -> AppTextProvider.getText(AppTextKey.FOOD_GROCERY, lang)
-            "Vegetables" -> AppTextProvider.getText(AppTextKey.VEGETABLES, lang)
-            "Fruits" -> AppTextProvider.getText(AppTextKey.FRUITS, lang)
-            "Meat Shop" -> AppTextProvider.getText(AppTextKey.MEAT_SHOP, lang)
-            "Health & Pharmacy" -> AppTextProvider.getText(AppTextKey.HEALTH_PHARMACY, lang)
-            "Household & Personal Care" -> AppTextProvider.getText(
-                AppTextKey.HOUSEHOLD_PERSONAL_CARE,
-                lang
-            )
-            else -> name
-        }
-    }
     var searchQuery by remember { mutableStateOf("") }
 
     var sheetItem by remember { mutableStateOf<GroceryItem?>(null) }
@@ -145,7 +132,7 @@ fun QuickSelectScreen(
                     uiState.categories.forEach { categoryName ->
                         val catItems = uiState.itemsByCategory[categoryName].orEmpty()
                         if (catItems.isNotEmpty()) {
-                            add(QuickSelectRow.SectionHeader(localizedCategoryName(categoryName)))
+                            add(QuickSelectRow.SectionHeader(CategoryDisplayNames.localizedName(categoryName, lang)))
                             catItems.forEach { add(QuickSelectRow.ItemEntry(it)) }
                         }
                     }
@@ -271,16 +258,11 @@ fun QuickSelectScreen(
                         scope.launch {
                             val err = renameCatalogItem(activeItem.id, editName)
                             if (err != null) {
-                                val translatedErr = when (err) {
-                                    "Name is required." ->
-                                        AppTextProvider.getText(AppTextKey.ITEM_NAME_REQUIRED, lang)
-                                    "An item with this name already exists in this category." ->
-                                        AppTextProvider.getText(AppTextKey.DUPLICATE_ITEM_MESSAGE, lang)
-                                    "Item not found." ->
-                                        AppTextProvider.getText(AppTextKey.TOAST_ITEM_NOT_FOUND, lang)
-                                    else -> err
-                                }
-                                Toast.makeText(context, translatedErr, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    AppTextProvider.getText(err, lang),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 setItemFavorite(activeItem.id, editFavorite)
                                 sheetItem = null
@@ -385,18 +367,7 @@ fun QuickSelectScreen(
                     )
                     uiState.categories.forEach { category ->
                         QuickCategoryChip(
-                            label = when (category) {
-                                "Food & Grocery" -> AppTextProvider.getText(AppTextKey.FOOD_GROCERY, lang)
-                                "Vegetables" -> AppTextProvider.getText(AppTextKey.VEGETABLES, lang)
-                                "Fruits" -> AppTextProvider.getText(AppTextKey.FRUITS, lang)
-                                "Meat Shop" -> AppTextProvider.getText(AppTextKey.MEAT_SHOP, lang)
-                                "Health & Pharmacy" -> AppTextProvider.getText(AppTextKey.HEALTH_PHARMACY, lang)
-                                "Household & Personal Care" -> AppTextProvider.getText(
-                                    AppTextKey.HOUSEHOLD_PERSONAL_CARE,
-                                    lang
-                                )
-                                else -> category
-                            },
+                            label = CategoryDisplayNames.localizedName(category, lang),
                             selected = category == uiState.selectedCategory,
                             onClick = { onCategorySelected(category) }
                         )
@@ -436,14 +407,7 @@ fun QuickSelectScreen(
                 }
             }
 
-            uiState.quickActionMessage?.let { msg ->
-                val translatedMsg = when (msg) {
-                    "No favorites yet. Tap the star on a row to mark favorites." ->
-                        AppTextProvider.getText(AppTextKey.NO_FAVORITE_ITEMS, lang)
-                    "No frequent items yet (purchase an item 3+ times)." ->
-                        AppTextProvider.getText(AppTextKey.NO_FREQUENT_ITEMS, lang)
-                    else -> msg
-                }
+            uiState.quickActionMessageKey?.let { messageKey ->
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -451,7 +415,7 @@ fun QuickSelectScreen(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
                 ) {
                     Text(
-                        text = translatedMsg,
+                        text = AppTextProvider.getText(messageKey, lang),
                         modifier = Modifier.padding(10.dp),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant

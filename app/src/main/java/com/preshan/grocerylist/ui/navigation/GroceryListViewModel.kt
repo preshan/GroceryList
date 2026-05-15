@@ -10,6 +10,7 @@ import com.preshan.grocerylist.data.repository.CatalogRepositoryImpl
 import com.preshan.grocerylist.data.repository.LocalDataRepository
 import com.preshan.grocerylist.data.repository.ShoppingSessionRepository
 import com.preshan.grocerylist.data.seed.DatabaseSeeder
+import com.preshan.grocerylist.util.AppTextKey
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -50,7 +51,7 @@ data class GroceryUiState(
     /** Active Room shopping session while user is in shopping mode, null otherwise. */
     val activeShoppingSessionId: Long? = null,
     /** One-shot hint from quick actions (e.g. no frequent items). */
-    val quickActionMessage: String? = null
+    val quickActionMessageKey: AppTextKey? = null
 )
 
 class GroceryListViewModel(application: Application) : AndroidViewModel(application) {
@@ -101,7 +102,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                         categories = categoryList,
                         itemsByCategory = grouped,
                         selectedCategory = selectedCategory,
-                        quickActionMessage = state.quickActionMessage
+                        quickActionMessageKey = state.quickActionMessageKey
                     )
                 }
             }
@@ -116,14 +117,14 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun selectCategory(category: String?) {
-        _uiState.update { it.copy(selectedCategory = category, quickActionMessage = null) }
+        _uiState.update { it.copy(selectedCategory = category, quickActionMessageKey = null) }
     }
 
     fun toggleItemSelection(itemId: Long) {
         _uiState.update { state ->
             val updated = state.selectedItemIds.toMutableSet()
             if (!updated.add(itemId)) updated.remove(itemId)
-            state.copy(selectedItemIds = updated, quickActionMessage = null)
+            state.copy(selectedItemIds = updated, quickActionMessageKey = null)
         }
     }
 
@@ -133,7 +134,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 null -> state.itemsByCategory.values.flatten().map { it.id }
                 else -> state.itemsByCategory[cat].orEmpty().map { it.id }
             }
-            state.copy(selectedItemIds = state.selectedItemIds + categoryItems, quickActionMessage = null)
+            state.copy(selectedItemIds = state.selectedItemIds + categoryItems, quickActionMessageKey = null)
         }
     }
 
@@ -144,17 +145,17 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
     fun clearQuickSelectSelections() {
         _uiState.update { state ->
             when (val cat = state.selectedCategory) {
-                null -> state.copy(selectedItemIds = emptySet(), quickActionMessage = null)
+                null -> state.copy(selectedItemIds = emptySet(), quickActionMessageKey = null)
                 else -> {
                     val inCategory = state.itemsByCategory[cat].orEmpty().map { it.id }.toSet()
-                    state.copy(selectedItemIds = state.selectedItemIds - inCategory, quickActionMessage = null)
+                    state.copy(selectedItemIds = state.selectedItemIds - inCategory, quickActionMessageKey = null)
                 }
             }
         }
     }
 
     fun clearAllSelections() {
-        _uiState.update { it.copy(selectedItemIds = emptySet(), purchasedItemIds = emptySet(), quickActionMessage = null) }
+        _uiState.update { it.copy(selectedItemIds = emptySet(), purchasedItemIds = emptySet(), quickActionMessageKey = null) }
     }
 
     fun selectFavoritesFromDatabase() {
@@ -165,9 +166,9 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 .map { it.id }
                 .toSet()
             if (ids.isEmpty()) {
-                state.copy(quickActionMessage = "No favorites yet. Tap the star on a row to mark favorites.")
+                state.copy(quickActionMessageKey = AppTextKey.NO_FAVORITE_ITEMS)
             } else {
-                state.copy(selectedItemIds = state.selectedItemIds + ids, quickActionMessage = null)
+                state.copy(selectedItemIds = state.selectedItemIds + ids, quickActionMessageKey = null)
             }
         }
     }
@@ -178,9 +179,9 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
             withContext(Dispatchers.Main) {
                 _uiState.update { state ->
                     if (ids.isEmpty()) {
-                        state.copy(quickActionMessage = "No frequent items yet (purchase an item 3+ times).")
+                        state.copy(quickActionMessageKey = AppTextKey.NO_FREQUENT_ITEMS)
                     } else {
-                        state.copy(selectedItemIds = state.selectedItemIds + ids, quickActionMessage = null)
+                        state.copy(selectedItemIds = state.selectedItemIds + ids, quickActionMessageKey = null)
                     }
                 }
                 onDone()
@@ -219,14 +220,14 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
-    suspend fun renameCatalogItem(itemId: Long, name: String): String? = withContext(Dispatchers.IO) {
+    suspend fun renameCatalogItem(itemId: Long, name: String): AppTextKey? = withContext(Dispatchers.IO) {
         val trimmed = name.trim()
-        if (trimmed.isEmpty()) return@withContext "Name is required."
+        if (trimmed.isEmpty()) return@withContext AppTextKey.ITEM_NAME_REQUIRED
         val normalized = trimmed.lowercase(Locale.getDefault())
-        val existing = itemDao.getById(itemId) ?: return@withContext "Item not found."
-        if (!existing.isActive) return@withContext "Item not found."
+        val existing = itemDao.getById(itemId) ?: return@withContext AppTextKey.TOAST_ITEM_NOT_FOUND
+        if (!existing.isActive) return@withContext AppTextKey.TOAST_ITEM_NOT_FOUND
         if (itemDao.existsActiveDuplicateInCategory(existing.categoryId, normalized, itemId)) {
-            return@withContext "An item with this name already exists in this category."
+            return@withContext AppTextKey.DUPLICATE_ITEM_MESSAGE
         }
         val now = System.currentTimeMillis()
         itemDao.updateItem(
@@ -254,7 +255,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun dismissQuickActionMessage() {
-        _uiState.update { it.copy(quickActionMessage = null) }
+        _uiState.update { it.copy(quickActionMessageKey = null) }
     }
 
     fun setShoppingFilter(filter: ShoppingFilter) {
@@ -295,7 +296,7 @@ class GroceryListViewModel(application: Application) : AndroidViewModel(applicat
                 if (ids.isEmpty()) return@withLock
                 val sessionId = shoppingSessionRepository.createActiveSessionWithItems(ids)
                 if (sessionId <= 0) return@withLock
-                _uiState.update { it.copy(activeShoppingSessionId = sessionId, quickActionMessage = null) }
+                _uiState.update { it.copy(activeShoppingSessionId = sessionId, quickActionMessageKey = null) }
                 createdSession = true
             }
             if (createdSession) {

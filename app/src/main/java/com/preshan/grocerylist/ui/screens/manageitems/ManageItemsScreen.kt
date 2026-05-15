@@ -53,6 +53,7 @@ import com.preshan.grocerylist.data.local.entity.CategoryEntity
 import com.preshan.grocerylist.ui.components.AppPrimaryButton
 import com.preshan.grocerylist.util.AppTextKey
 import com.preshan.grocerylist.util.AppTextProvider
+import com.preshan.grocerylist.util.CategoryDisplayNames
 import kotlinx.coroutines.launch
 
 /** Matches [com.preshan.grocerylist.ui.components.AppPrimaryButton] height. */
@@ -253,7 +254,11 @@ fun ManageItemsScreen(
                                 favorite = editorFavorite
                             )
                             if (err != null) {
-                                Toast.makeText(context, err, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    AppTextProvider.getText(err, lang),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             } else {
                                 editorOpen = false
                             }
@@ -420,7 +425,7 @@ private fun ManageItemRowCard(
             Column(modifier = Modifier.weight(1f)) {
                 Text(text = row.name, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                 Text(
-                    text = row.categoryName,
+                    text = CategoryDisplayNames.localizedName(row.categoryName, lang),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -460,7 +465,9 @@ private fun BulkAddItemsDialog(
     var selectedCategoryId by remember { mutableLongStateOf(categories.first().id) }
     var bulkText by remember { mutableStateOf("") }
 
-    val categoryLabel = categories.find { it.id == selectedCategoryId }?.name.orEmpty()
+    val categoryLabel = categories.find { it.id == selectedCategoryId }?.name
+        ?.let { CategoryDisplayNames.localizedName(it, lang) }
+        .orEmpty()
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -492,7 +499,7 @@ private fun BulkAddItemsDialog(
                     ExposedDropdownMenu(expanded = categoryMenuExpanded, onDismissRequest = { categoryMenuExpanded = false }) {
                         categories.forEach { cat ->
                             DropdownMenuItem(
-                                text = { Text(cat.name) },
+                                text = { Text(CategoryDisplayNames.localizedName(cat.name, lang)) },
                                 onClick = {
                                     selectedCategoryId = cat.id
                                     categoryMenuExpanded = false
@@ -546,7 +553,9 @@ private fun ItemEditorDialog(
     val lang = AppTextProvider.LocalAppLanguage.current
     var categoryMenuExpanded by remember { mutableStateOf(false) }
 
-    val categoryLabel = categories.find { it.id == selectedCategoryId }?.name.orEmpty()
+    val categoryLabel = categories.find { it.id == selectedCategoryId }?.name
+        ?.let { CategoryDisplayNames.localizedName(it, lang) }
+        .orEmpty()
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -582,7 +591,7 @@ private fun ItemEditorDialog(
                     ExposedDropdownMenu(expanded = categoryMenuExpanded, onDismissRequest = { categoryMenuExpanded = false }) {
                         categories.forEach { cat ->
                             DropdownMenuItem(
-                                text = { Text(cat.name) },
+                                text = { Text(CategoryDisplayNames.localizedName(cat.name, lang)) },
                                 onClick = {
                                     onCategorySelected(cat.id)
                                     categoryMenuExpanded = false
