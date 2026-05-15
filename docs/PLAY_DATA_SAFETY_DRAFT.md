@@ -188,9 +188,9 @@ From `app/build.gradle.kts` and merged dependencies:
 
 1. Complete **Data safety** using [AdMob Play data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure).  
 2. Declare third-party collection/processing by **Google** for advertising as required by the form (not developer collection of grocery lists).  
-3. **UMP / consent** — integrate before production personalized ads in EEA/UK/CH if you target those regions.  
-4. Replace **test** AdMob app/unit IDs in `admob.xml` with **production** IDs before monetized production.  
-5. Do **not** claim “no data collected” globally while AdMob is active.
+3. **UMP / consent** — integrated in app; ensure a **Privacy & messaging** message is published in AdMob for your app ID.  
+4. **Release builds** use production AdMob IDs in `app/src/main/res/values/admob.xml`; **debug** builds use Google test IDs in `app/src/debug/res/values/admob.xml`.  
+5. Do **not** claim “no data collected” globally while AdMob is active — declare **Google** ad-related processing in Data safety.
 
 ### Likely AdMob-related declaration categories (verify in Play form)
 
@@ -251,7 +251,8 @@ From `app/build.gradle.kts` and merged dependencies:
 - [ ] Confirm **Contains ads** = **Yes**  
 - [ ] Confirm **Clear All Local Data** behavior matches deletion answers  
 - [ ] After any schema/backup change, re-read sections 3 and 6  
-- [ ] Production AdMob IDs + UMP (if EEA) before monetized production  
+- [ ] AdMob **Privacy & messaging** message published in AdMob console (UMP)  
+- [ ] **Contains ads** = **Yes**; Data safety includes Google Mobile Ads SDK  
 
 ---
 

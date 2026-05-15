@@ -15,6 +15,18 @@ class CsvRfc4180Test {
     }
 
     @Test
+    fun sinhalaTamil_roundTrip_preservesUtf8InSingleRow() {
+        val category = "ප්‍රවර්ගය"
+        val sinhalaItem = "සම්බ සහල්"
+        val tamilItem = "தமிழ் பொருள்"
+        val row = CsvRfc4180.formatRow(listOf(category, sinhalaItem, tamilItem, "1", "0", "0", "", "", "1"))
+        val parsed = CsvRfc4180.parseLine(row)
+        assertEquals(category, parsed[0])
+        assertEquals(sinhalaItem, parsed[1])
+        assertEquals(tamilItem, parsed[2])
+    }
+
+    @Test
     fun parseLine_handlesQuotedCommasAndNewlines() {
         val line = "\"a,b\",\"line\nbreak\",plain"
         val parsed = CsvRfc4180.parseLine(line)

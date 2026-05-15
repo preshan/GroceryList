@@ -21,3 +21,7 @@
 # Google Mobile Ads (when minify is enabled).
 -keep class com.google.android.gms.ads.** { *; }
 -dontwarn com.google.android.gms.ads.**
+
+# Google User Messaging Platform (UMP).
+-keep class com.google.android.ump.** { *; }
+-dontwarn com.google.android.ump.**

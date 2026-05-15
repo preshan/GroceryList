@@ -167,6 +167,7 @@ enum class AppTextKey(val id: String) {
     CLEAR_ALL_LOCAL_DATA("clear_all_local_data"),
     CLEAR_ALL_DATA_SUBTITLE("clear_all_data_subtitle"),
     AD_PRIVACY_OPTIONS("ad_privacy_options"),
+    AD_PRIVACY_OPTIONS_SUBTITLE("ad_privacy_options_subtitle"),
     PRIVACY_POLICY_SUBTITLE("privacy_policy_subtitle"),
     DEFAULT_GROUPING("default_grouping"),
 
@@ -210,6 +211,7 @@ enum class AppTextKey(val id: String) {
     PRIVACY_NO_ANALYTICS("privacy_no_analytics"),
     PRIVACY_ADS_FUTURE("privacy_ads_future"),
     PRIVACY_ADS_DATA("privacy_ads_data"),
+    PRIVACY_ADS_CONSENT("privacy_ads_consent"),
     PRIVACY_VIEW_ONLINE("privacy_view_online"),
     TERMS_VIEW_ONLINE("terms_view_online"),
     OPEN_IN_BROWSER("open_in_browser"),
@@ -235,7 +237,8 @@ enum class AppTextKey(val id: String) {
     TOAST_LIST_CLEARED("toast_list_cleared"),
     TOAST_CLEAR_ALL_PLACEHOLDER("toast_clear_all_placeholder"),
     TOAST_CLEAR_ALL_SUCCESS("toast_clear_all_success"),
-    TOAST_AD_PRIVACY_PLACEHOLDER("toast_ad_privacy_placeholder"),
+    TOAST_AD_PRIVACY_NOT_AVAILABLE("toast_ad_privacy_not_available"),
+    TOAST_AD_PRIVACY_ERROR("toast_ad_privacy_error"),
     TOAST_STILL_LOADING("toast_still_loading"),
     TOAST_ITEM_NOT_FOUND("toast_item_not_found"),
 }

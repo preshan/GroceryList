@@ -1,6 +1,8 @@
 package com.preshan.grocerylist.ui.navigation
 
+import android.app.Activity
 import android.widget.Toast
+import com.preshan.grocerylist.ads.AdConsentManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -394,15 +396,35 @@ fun GroceryListNavHost(
                     }
                 },
                 onPrivacyPolicyClick = { navController.navigate(AppRoutes.PRIVACY_POLICY) },
-                onAdPrivacyOptionsPlaceholderClick = {
-                    Toast.makeText(
-                        context,
-                        AppTextProvider.getText(
-                            AppTextKey.TOAST_AD_PRIVACY_PLACEHOLDER,
-                            appLanguage
-                        ),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                onAdPrivacyOptionsClick = {
+                    val activity = context as? Activity
+                    if (activity == null) {
+                        Toast.makeText(
+                            context,
+                            AppTextProvider.getText(
+                                AppTextKey.TOAST_AD_PRIVACY_NOT_AVAILABLE,
+                                appLanguage
+                            ),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                    AdConsentManager.showPrivacyOptions(activity) { result ->
+                        val message = when (result) {
+                            AdConsentManager.PrivacyOptionsResult.Shown -> null
+                            AdConsentManager.PrivacyOptionsResult.NotAvailable ->
+                                AppTextKey.TOAST_AD_PRIVACY_NOT_AVAILABLE
+                            AdConsentManager.PrivacyOptionsResult.Error ->
+                                AppTextKey.TOAST_AD_PRIVACY_ERROR
+                        }
+                        if (message != null) {
+                            Toast.makeText(
+                                context,
+                                AppTextProvider.getText(message, appLanguage),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                    }
                 },
                 onCountryRegionLanguageClick = {
                     navController.navigate(AppRoutes.LOCALE_SETUP_EDIT)

@@ -11,14 +11,14 @@ Ship the app to Google Play with policy-safe metadata, privacy disclosure, and s
 - In-app privacy policy access (Settings → Privacy policy; links open hosted docs)
 - Complete Data Safety form accurately
 - Reflect AdMob SDK behavior correctly
-- Do not claim "no data collected" if ad SDK collects ad-related data
+- Do not claim "no data collected" for the app overall — grocery list data stays local; **Google AdMob** may process ad-related data per Google policies
 
 ### Ads Declaration
 - Declare **"Contains ads" = Yes** in Play Console (AdMob banner on home screen)
 - Keep ad behavior aligned with app implementation (banner only; no ads in shopping mode)
-- Replace Google **test** AdMob IDs with production IDs before monetized production release
+- **Production AdMob IDs** in `app/src/main/res/values/admob.xml`; **debug** builds use Google test IDs in `app/src/debug/res/values/admob.xml`
 - Complete AdMob / Data safety disclosures per [AdMob Play data disclosure](https://developers.google.com/admob/android/privacy/play-data-disclosure)
-- Add **UMP / consent** before production ads in EEA/UK if required
+- **UMP / consent** integrated in app (`AdConsentManager`); configure messages in AdMob → Privacy & messaging
 
 ### Permissions
 - Keep permissions minimal
