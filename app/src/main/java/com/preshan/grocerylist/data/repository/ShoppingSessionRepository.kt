@@ -4,6 +4,8 @@ import androidx.room.withTransaction
 import com.preshan.grocerylist.data.local.database.AppDatabase
 import com.preshan.grocerylist.data.local.entity.ShoppingSessionEntity
 import com.preshan.grocerylist.data.local.entity.ShoppingSessionItemEntity
+import com.preshan.grocerylist.ui.navigation.GroceryItem
+import java.util.Locale
 
 class ShoppingSessionRepository(
     private val database: AppDatabase
@@ -31,12 +33,14 @@ class ShoppingSessionRepository(
                 )
             )
 
+            val categoryNames = database.categoryDao().getAllLookupRows().associateBy { it.id }
             val lines = ordered.mapIndexed { index, item ->
                 ShoppingSessionItemEntity(
                     shoppingSessionId = sessionId,
                     itemId = item.id,
                     itemNameSnapshot = item.name,
                     categoryIdSnapshot = item.categoryId,
+                    categoryNameSnapshot = categoryNames[item.categoryId]?.name.orEmpty(),
                     storeTypeIdSnapshot = item.storeTypeId,
                     isSelected = true,
                     isPurchased = false,
@@ -95,4 +99,24 @@ class ShoppingSessionRepository(
 
     suspend fun getSessionItems(sessionId: Long): List<ShoppingSessionItemEntity> =
         database.shoppingSessionItemDao().getBySessionId(sessionId)
+
+    /**
+     * Builds shopping UI/share data from persisted session snapshots (not live catalogue rows).
+     */
+    suspend fun getSessionItemsGroupedForDisplay(sessionId: Long): Map<String, List<GroceryItem>> {
+        val lines = getSessionItems(sessionId)
+        if (lines.isEmpty()) return emptyMap()
+        val grouped = linkedMapOf<String, MutableList<GroceryItem>>()
+        for (line in lines) {
+            val category = line.categoryNameSnapshot.ifBlank { "—" }
+            val item = GroceryItem(
+                id = line.itemId,
+                name = line.itemNameSnapshot,
+                category = category,
+                normalizedName = line.itemNameSnapshot.trim().lowercase(Locale.getDefault())
+            )
+            grouped.getOrPut(category) { mutableListOf() }.add(item)
+        }
+        return grouped.mapValues { (_, items) -> items.toList() }
+    }
 }

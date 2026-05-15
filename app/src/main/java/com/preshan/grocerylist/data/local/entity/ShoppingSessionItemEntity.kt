@@ -33,6 +33,7 @@ data class ShoppingSessionItemEntity(
     @ColumnInfo(name = "item_id") val itemId: Long,
     @ColumnInfo(name = "item_name_snapshot") val itemNameSnapshot: String,
     @ColumnInfo(name = "category_id_snapshot") val categoryIdSnapshot: Long,
+    @ColumnInfo(name = "category_name_snapshot") val categoryNameSnapshot: String,
     @ColumnInfo(name = "store_type_id_snapshot") val storeTypeIdSnapshot: Long? = null,
     @ColumnInfo(name = "is_selected") val isSelected: Boolean = true,
     @ColumnInfo(name = "is_purchased") val isPurchased: Boolean = false,
