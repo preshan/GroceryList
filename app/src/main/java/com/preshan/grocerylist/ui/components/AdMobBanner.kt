@@ -1,5 +1,6 @@
 package com.preshan.grocerylist.ui.components
 
+import android.app.Activity
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
@@ -15,7 +16,8 @@ import com.google.android.gms.ads.AdView
 import com.preshan.grocerylist.R
 
 /**
- * Standard AdMob banner for Compose. Loads once per composition; pauses on dispose.
+ * Adaptive banner for Compose (home screen). Uses full width; height follows AdMob guidance.
+ * https://developers.google.com/admob/android/banner
  */
 @Composable
 fun AdMobBanner(
@@ -27,9 +29,17 @@ fun AdMobBanner(
     }
     val context = LocalContext.current
     val resolvedUnitId = adUnitId ?: context.getString(R.string.admob_banner_home)
-    val adView = remember(resolvedUnitId) {
+    val adSize = remember(context) {
+        val activity = context as? Activity
+        if (activity != null) {
+            AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity, AdSize.FULL_WIDTH)
+        } else {
+            AdSize.BANNER
+        }
+    }
+    val adView = remember(resolvedUnitId, adSize) {
         AdView(context).apply {
-            setAdSize(AdSize.BANNER)
+            setAdSize(adSize)
             this.adUnitId = resolvedUnitId
         }
     }
