@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.preshan.grocerylist.util.AppTextKey
 import java.util.Locale
 
 data class BulkAddResult(
@@ -220,13 +221,13 @@ class ManageItemsViewModel(application: Application) : AndroidViewModel(applicat
         name: String,
         categoryId: Long,
         favorite: Boolean
-    ): String? = withContext(Dispatchers.IO) {
+    ): AppTextKey? = withContext(Dispatchers.IO) {
         val trimmed = name.trim()
-        if (trimmed.isEmpty()) return@withContext "Name is required."
+        if (trimmed.isEmpty()) return@withContext AppTextKey.ITEM_NAME_REQUIRED
         val normalized = trimmed.lowercase(Locale.getDefault())
         val excludeId = existingId ?: 0L
         if (itemDao.existsActiveDuplicateInCategory(categoryId, normalized, excludeId)) {
-            return@withContext "An item with this name already exists in this category."
+            return@withContext AppTextKey.DUPLICATE_ITEM_MESSAGE
         }
         val now = System.currentTimeMillis()
         if (existingId == null) {
@@ -249,8 +250,8 @@ class ManageItemsViewModel(application: Application) : AndroidViewModel(applicat
             )
             itemDao.insertItem(entity)
         } else {
-            val existing = itemDao.getById(existingId) ?: return@withContext "Item not found."
-            if (!existing.isActive) return@withContext "Item not found."
+            val existing = itemDao.getById(existingId) ?: return@withContext AppTextKey.TOAST_ITEM_NOT_FOUND
+            if (!existing.isActive) return@withContext AppTextKey.TOAST_ITEM_NOT_FOUND
             itemDao.updateItem(
                 existing.copy(
                     name = trimmed,

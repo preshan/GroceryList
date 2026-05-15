@@ -143,6 +143,11 @@ enum class AppTextKey(val id: String) {
     BUILT_IN("built_in"),
     YOUR_CATEGORY("your_category"),
     RENAME("rename"),
+    BUILTIN_CATEGORY_CANNOT_REMOVE("builtin_category_cannot_remove"),
+    CATEGORY_HAS_ITEMS_CANNOT_REMOVE("category_has_items_cannot_remove"),
+    COULD_NOT_REMOVE_CATEGORY("could_not_remove_category"),
+    DUPLICATE_CATEGORY_NAME("duplicate_category_name"),
+    CATEGORY_NOT_FOUND("category_not_found"),
 
     // Settings
     CATALOGUE("catalogue"),
